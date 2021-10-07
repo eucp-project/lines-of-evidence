@@ -1,15 +1,13 @@
 <template>
-  <div class="flex flex-col place-content-center items-center h-full">
+  <div class="flex flex-col overflow-auto place-content-center items-center w-screen h-full">
     <h1 class="m-4 text-3xl">
       EUCP WP5 - Demonstrator lines of evidence
     </h1>
     <div class="space-x-1">
-      <Dropdown v-model="selectedVariable" :options="variables" alttext="Choose a variable." />
-      <Dropdown v-model="selectedSeason" :options="seasons" alttext="Select a season. Winter is DJF and summer is JJA." />
-      <Dropdown v-model="selectedPercentile" :options="percentiles" alttext="Percentiles indicate how likely these changes are." />
-      <Dropdown v-model="selectedDataset" :options="datasets" alttext="Select a dataset. Currently only CMIP6 is included." />
-      <Dropdown v-model="selectedMethod" :options="methods" alttext="Select a method. See More info for explanations of the methods." />
-      <Dropdown v-model="selectedConstrained" :options="constrainedOptions" alttext="Whether to display constrained or unconstrained projections." />
+      <Dropdown v-model="selectedProject" :options="projects" alttext="Choose a project." />
+      <Dropdown v-model="selectedModel" :options="models" alttext="Select a model." />
+      <Dropdown v-model="selectedSeason" :options="seasons" alttext="Select a season." />
+      <Dropdown v-model="selectedRegion" :options="regions" alttext="Select a region." />
     </div>
     <div
       class="bg-center bg-no-repeat bg-contain flex-grow w-full"
@@ -23,41 +21,34 @@
 export default {
   data () {
     return {
-      selectedDataset: 'cmip6',
-      selectedPercentile: '10',
-      selectedSeason: 'djf',
-      selectedVariable: 'tas',
-      selectedMethod: 'ClimWIP',
-      selectedConstrained: 'cons',
-      datasets: {
-        cmip6: 'CMIP6',
-        cmip5: 'CMIP5'
+      selectedProject: 'CMIP5',
+      selectedModel: 'ACCESS1-0',
+      selectedSeason: 'DJF',
+      selectedRegion: 'Alpine',
+      projects: {
+        CMIP5: 'CMIP5',
+        CMIP6: 'CMIP6',
+        'cordex-cpm': 'cordex-cpm',
+        CORDEX: 'CORDEX'
       },
-      percentiles: {
-        10: '10-percentile',
-        25: '25-percentile',
-        50: '50-percentile',
-        75: '75-percentile',
-        90: '90-percentile'
+      models: {
+        'ACCESS1-0': 'ACCESS1-0',
+        'bcc-csm1-1': 'bcc-csm1-1'
       },
       seasons: {
-        djf: 'Winter',
-        jja: 'Summer'
+        DJF: 'Winter',
+        JJA: 'Summer',
+        MAM: 'Spring',
+        OND: 'Autumn'
       },
-      variables: {
-        tas: 'Temperature',
-        pr: 'Precipitation'
-      },
-      methods: {
-        ASK: 'ASK',
-        ClimWIP: 'ClimWIP',
-        HistC: 'HistC',
-        REA: 'REA',
-        UKCP: 'UKCP'
-      },
-      constrainedOptions: {
-        cons: 'Constrained',
-        uncons: 'Unconstrained'
+      regions: {
+        Alpine: 'Alpine',
+        Alps_NE: 'Alps_NE',
+        Alps_NW: 'Alps_NW',
+        Alps_SE: 'Alps_SE',
+        Alps_SW: 'Alps_SW',
+        DE_S: 'DE_S',
+        FRA_S: 'FRA_S'
       }
     }
   },
@@ -65,7 +56,7 @@ export default {
     bgImage () {
       const fallback = 'placeholder.png'
       try {
-        return require('~/assets/processed_figures/eur_' + this.selectedMethod + '_' + this.selectedVariable + '_41-60_' + this.selectedSeason + '_' + this.selectedDataset + '_' + this.selectedPercentile + 'perc_' + this.selectedConstrained + '.png')
+        return require('~/assets/plots_' + this.selectedRegion + '/plots/maps/main/' + this.selectedSeason + '/' + this.selectedProject + '_' + this.selectedModel + '_map_' + this.selectedSeason + '.png')
       } catch (err) {
         return fallback
       }
