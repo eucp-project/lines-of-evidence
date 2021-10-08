@@ -3,17 +3,23 @@
     <h1 class="m-4 text-3xl">
       EUCP WP5 - Demonstrator lines of evidence
     </h1>
-    <div class="space-x-1">
+    <div class="space-x-1 item-center">
       <Dropdown v-model="selectedProject" :options="projects" alttext="Choose a project." />
       <Dropdown v-model="selectedModel" :options="models" alttext="Select a model." />
       <Dropdown v-model="selectedSeason" :options="seasons" alttext="Select a season." />
       <Dropdown v-model="selectedRegion" :options="regions" alttext="Select a region." />
     </div>
-    <div
-      class="bg-center bg-no-repeat bg-contain flex-grow w-full"
-      :style="{backgroundImage: `url(${bgImage})`}"
-    />
-    <Boxplot />
+    <div class="flex flex-row overflow-auto place-content-center w-screen h-full">
+      <div class="w-1/2">
+        <div
+          class="bg-center bg-no-repeat bg-contain flex-grow h-full"
+          :style="{backgroundImage: `url(${bgImage})`}"
+        />
+      </div>
+      <div class="item-center w-1/2 h-full">
+        <Boxplot />
+      </div>
+    </div>
   </div>
 </template>
 
