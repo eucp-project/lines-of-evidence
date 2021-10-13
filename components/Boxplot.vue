@@ -6,34 +6,6 @@
 import vegaEmbed from 'vega-embed'
 
 export default {
-  data () {
-    return {
-      spec: {},
-      vegaLiteSpec: {
-        $schema: 'https://vega.github.io/schema/vega-lite/v4.8.1.json',
-        config: {
-          view: {
-            continuousHeight: 300,
-            continuousWidth: 400
-          }
-        },
-        data: {
-          url: '/data/testdata.json'
-        },
-        encoding: {
-          x: {
-            field: 'age',
-            type: 'ordinal'
-          },
-          y: {
-            field: 'people',
-            type: 'quantitative'
-          }
-        },
-        mark: 'boxplot'
-      }
-    }
-  },
   async mounted () {
     const spec = await fetch('data/chart.json').then(res => res.json())
 
