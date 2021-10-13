@@ -16,7 +16,11 @@ export default {
   },
   methods: {
     updateMap (event, item) {
-      const path = item.datum.project + '_' + item.datum.dataset
+      // When clicking outside the points, show the mean of the project
+      const project = item.datum.project
+      const dataset = item.datum.dataset
+      const path = dataset === undefined ? project + '_mean' : project + '_' + dataset
+      // console.log(project, dataset, path)
       this.$emit('updateMap', path)
     }
   }
