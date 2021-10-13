@@ -16,7 +16,7 @@
           :style="{backgroundImage: `url(${bgImage})`}"
         />
       </div>
-      <div class="item-center w-1/2 h-full">
+      <div class="flex items-center w-1/2 h-full">
         <Boxplot @updateMap="updateMap($event)" />
       </div>
     </div>
