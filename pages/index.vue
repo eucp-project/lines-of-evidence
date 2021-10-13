@@ -4,8 +4,8 @@
       EUCP WP5 - Demonstrator lines of evidence
     </h1>
     <div class="space-x-1 item-center">
-      <Dropdown v-model="selectedProject" :options="projects" alttext="Choose a project." />
-      <Dropdown v-model="selectedModel" :options="models" alttext="Select a model." />
+      <!-- <Dropdown v-model="selectedProject" :options="projects" alttext="Choose a project." /> -->
+      <!-- <Dropdown v-model="selectedModel" :options="models" alttext="Select a model." /> -->
       <Dropdown v-model="selectedSeason" :options="seasons" alttext="Select a season." />
       <Dropdown v-model="selectedRegion" :options="regions" alttext="Select a region." />
     </div>
@@ -17,7 +17,7 @@
         />
       </div>
       <div class="item-center w-1/2 h-full">
-        <Boxplot />
+        <Boxplot @updateMap="updateMap($event)" />
       </div>
     </div>
   </div>
@@ -27,8 +27,7 @@
 export default {
   data () {
     return {
-      selectedProject: 'CMIP5',
-      selectedModel: 'ACCESS1-0',
+      projectModel: 'CMIP5_ACCESS1-0',
       selectedSeason: 'DJF',
       selectedRegion: 'Alpine',
       projects: {
@@ -62,10 +61,15 @@ export default {
     bgImage () {
       const fallback = 'placeholder.png'
       try {
-        return require('~/assets/plots_' + this.selectedRegion + '/plots/maps/main/' + this.selectedSeason + '/' + this.selectedProject + '_' + this.selectedModel + '_map_' + this.selectedSeason + '.png')
+        return require('~/assets/plots_' + this.selectedRegion + '/plots/maps/main/' + this.selectedSeason + '/' + this.projectModel + '_map_' + this.selectedSeason + '.png')
       } catch (err) {
         return fallback
       }
+    }
+  },
+  methods: {
+    updateMap (newValue) {
+      this.projectModel = newValue
     }
   }
 }

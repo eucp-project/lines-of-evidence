@@ -16,9 +16,8 @@ export default {
   },
   methods: {
     updateMap (event, item) {
-      console.log(item.datum)
-      const path = item.datum.project + '_' + item.datum.dataset + '_map_' + 'DJF.png' // TODO use season_number
-      alert(path)
+      const path = item.datum.project + '_' + item.datum.dataset
+      this.$emit('updateMap', path)
     }
   }
 }
