@@ -17,7 +17,7 @@
         />
       </div>
       <div class="flex items-center w-1/2 h-full">
-        <Boxplot @updateMap="updateMap($event)" />
+        <Boxplot :season="selectedSeason" :region="selectedRegion" @updateMap="updateMap($event)" />
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@ export default {
         DJF: 'Winter',
         JJA: 'Summer',
         MAM: 'Spring',
-        OND: 'Autumn'
+        SON: 'Autumn'
       },
       regions: {
         Alpine: 'Alpine',

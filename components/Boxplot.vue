@@ -6,13 +6,36 @@
 import vegaEmbed from 'vega-embed'
 
 export default {
+  props: {
+    season: {
+      type: String,
+      required: true
+    },
+    region: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      view: {}
+    }
+  },
+  watch: {
+    // Update view whenever season or region changes
+    season: 'updateView',
+    region: 'updateView'
+  },
   async mounted () {
-    const spec = await fetch('data/chart.json').then(res => res.json())
+    const spec = await fetch('chart.json').then(res => res.json())
 
-    // Add generic event listener: https://stackoverflow.com/a/61782407
-    vegaEmbed('#vis', spec).then((result) => {
-      result.view.addEventListener('click', this.updateMap)
-    }).catch(console.warn)
+    // Instead of a URL, use a named dataset that we can update through the view API
+    delete spec.data.url
+    spec.data.name = 'myData'
+
+    this.view = await vegaEmbed('#vis', spec).then(result => result.view).catch(console.warn)
+    this.updateView()
+    this.view.addEventListener('click', this.updateMap)
   },
   methods: {
     updateMap (event, item) {
@@ -22,6 +45,15 @@ export default {
       const path = dataset === undefined ? project + '_mean' : project + '_' + dataset
       // console.log(project, dataset, path)
       this.$emit('updateMap', path)
+    },
+    async updateView () {
+      // Update source data and re-render the figure
+      const path = 'data/' + this.region + '_' + this.season + '.json'
+      const data = await fetch(path).then(res => res.json())
+
+      this.view.remove('myData', d => true).run() // remove all previous entries
+      this.view.insert('myData', data).run()
+      this.view.resize().run()
     }
   }
 }
