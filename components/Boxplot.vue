@@ -39,11 +39,31 @@ export default {
   },
   methods: {
     updateMap (event, item) {
-      // When clicking outside the points, show the mean of the project
-      const project = item.datum.project
-      const dataset = item.datum.dataset
-      const path = dataset === undefined ? project + '_mean' : project + '_' + dataset
-      // console.log(project, dataset, path)
+      let project = item.datum.project
+      let dataset = item.datum.dataset
+      const ensemble = item.datum.ensemble
+
+      // Custom paths for UKCP and CORDEX
+      if (project === 'UKCP-GCM') {
+        project = 'UKCP18%20land-gcm'
+        dataset = String(ensemble).padStart(2, '0')
+      } else if (project === 'UKCP-RCM') {
+        project = 'UKCP18%20land-rcm'
+        dataset = String(ensemble).padStart(2, '0')
+      } else if (project === 'CORDEX-EUR11') {
+        console.log(project, dataset, ensemble)
+      }
+
+      // When clicking outside the points, show the mean
+      if (dataset === undefined) {
+        dataset = 'mean'
+      }
+      if (dataset === 'undefined') {
+        dataset = 'mean'
+      }
+
+      // Trigger update
+      const path = `${project}_${dataset}`
       this.$emit('updateMap', path)
     },
     async updateView () {

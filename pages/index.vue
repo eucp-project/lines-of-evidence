@@ -13,7 +13,7 @@
       <div class="w-1/2">
         <div
           class="bg-center bg-no-repeat bg-contain flex-grow h-full"
-          :style="{backgroundImage: `url(${bgImage})`}"
+          :style="{backgroundImage: `url(${bgImage}), url('placeholder.png')`}"
         />
       </div>
       <div class="flex items-center w-1/2 h-full">
@@ -59,12 +59,15 @@ export default {
   },
   computed: {
     bgImage () {
-      const fallback = 'placeholder.png'
-      try {
-        return require('~/assets/plots_' + this.selectedRegion + '/plots/maps/main/' + this.selectedSeason + '/' + this.projectModel + '_map_' + this.selectedSeason + '.png')
-      } catch (err) {
-        return fallback
+      // correct typo in filenames
+      let season = this.selectedSeason
+      if (season === 'SON') {
+        season = 'OND'
       }
+
+      // Construct image path
+      const path = `plots/${this.selectedRegion}/maps/main/${season}/${this.projectModel}_map_${season}.png`
+      return path
     }
   },
   methods: {
