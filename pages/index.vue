@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     bgImage () {
-      // correct typo in filenames
+      // Correct typo in filenames
       let season = this.selectedSeason
       if (season === 'SON') {
         season = 'OND'
